@@ -89,7 +89,7 @@ def target_settings(bundle, name, device_family, sdk, deploy_key, deploy_val, ex
 \t\t\t\tCODE_SIGN_STYLE = Automatic;
 \t\t\t\tCURRENT_PROJECT_VERSION = 1;
 \t\t\t\tGENERATE_INFOPLIST_FILE = YES;
-\t\t\t\tINFOPLIST_KEY_CFBundleDisplayName = {name};
+\t\t\t\tINFOPLIST_KEY_CFBundleDisplayName = "{name}";
 \t\t\t\tMARKETING_VERSION = 1.0;
 \t\t\t\tPRODUCT_BUNDLE_IDENTIFIER = {bundle};
 \t\t\t\tPRODUCT_NAME = "$(TARGET_NAME)";
