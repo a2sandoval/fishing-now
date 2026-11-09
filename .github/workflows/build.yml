@@ -1,0 +1,56 @@
+name: Build Fishing Now
+
+# Builds both targets unsigned on a macOS runner — proves the code
+# compiles. Signed installs happen from Xcode with your Developer account.
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: macos-26
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Select Xcode 26
+        uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: "26.5"
+
+      - name: Build iPhone app (unsigned)
+        run: |
+          xcodebuild \
+            -project FishingNow.xcodeproj \
+            -scheme FishingNow \
+            -configuration Release \
+            -sdk iphoneos \
+            -derivedDataPath build \
+            CODE_SIGNING_ALLOWED=NO \
+            build
+
+      - name: Package unsigned IPA
+        run: |
+          APP_PATH="build/Build/Products/Release-iphoneos/FishingNow.app"
+          ls -la "$APP_PATH"
+          rm -rf Payload && mkdir -p Payload
+          cp -R "$APP_PATH" Payload/
+          zip -qry FishingNow-unsigned.ipa Payload
+
+      - name: Upload IPA
+        uses: actions/upload-artifact@v4
+        with:
+          name: fishing-now-unsigned-ipa
+          path: FishingNow-unsigned.ipa
+
+      - name: Build Watch app (unsigned)
+        run: |
+          xcodebuild \
+            -project FishingNow.xcodeproj \
+            -scheme FishingNow \
+            -configuration Release \
+            -sdk watchos \
+            -derivedDataPath build \
+            CODE_SIGNING_ALLOWED=NO \
+            build
