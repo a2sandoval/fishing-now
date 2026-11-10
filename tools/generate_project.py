@@ -366,7 +366,6 @@ pbx = f"""// !$*UTF8*$!
 \t\t\t\tSDKROOT = watchos;
 \t\t\t\tSUPPORTED_PLATFORMS = watchos;
 \t\t\t\tWATCHOS_DEPLOYMENT_TARGET = 10.0;
-\t\t\t\tARCHS = arm64;
 \t\t\t\tSKIP_INSTALL = YES;
 \t\t\t}};
 \t\t\tname = Debug;
@@ -380,7 +379,6 @@ pbx = f"""// !$*UTF8*$!
 \t\t\t\tSDKROOT = watchos;
 \t\t\t\tSUPPORTED_PLATFORMS = watchos;
 \t\t\t\tWATCHOS_DEPLOYMENT_TARGET = 10.0;
-\t\t\t\tARCHS = arm64;
 \t\t\t\tSKIP_INSTALL = YES;
 \t\t\t}};
 \t\t\tname = Release;
