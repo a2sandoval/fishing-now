@@ -141,7 +141,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				00000000000000000000011B /* PBXTargetDependency */,
 			);
 			name = FishingNow;
 			productName = FishingNow;
@@ -249,24 +248,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		00000000000000000000011B /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 000000000000000000000103 /* FishingNowWatch Watch App */;
-			targetProxy = 00000000000000000000011C /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
-
-/* Begin PBXContainerItemProxy section */
-		00000000000000000000011C /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 000000000000000000000101 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 000000000000000000000103;
-			remoteInfo = "FishingNowWatch Watch App";
-		};
-/* End PBXContainerItemProxy section */
 
 /* Begin XCBuildConfiguration section */
 		000000000000000000000115 /* Debug */ = {

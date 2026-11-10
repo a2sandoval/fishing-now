@@ -197,7 +197,6 @@ pbx = f"""// !$*UTF8*$!
 \t\t\tbuildRules = (
 \t\t\t);
 \t\t\tdependencies = (
-\t\t\t\t{dep} /* PBXTargetDependency */,
 \t\t\t);
 \t\t\tname = FishingNow;
 \t\t\tproductName = FishingNow;
@@ -296,24 +295,6 @@ pbx = f"""// !$*UTF8*$!
 \t\t\trunOnlyForDeploymentPostprocessing = 0;
 \t\t}};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-\t\t{dep} /* PBXTargetDependency */ = {{
-\t\t\tisa = PBXTargetDependency;
-\t\t\ttarget = {watch_target} /* FishingNowWatch Watch App */;
-\t\t\ttargetProxy = {proxy} /* PBXContainerItemProxy */;
-\t\t}};
-/* End PBXTargetDependency section */
-
-/* Begin PBXContainerItemProxy section */
-\t\t{proxy} /* PBXContainerItemProxy */ = {{
-\t\t\tisa = PBXContainerItemProxy;
-\t\t\tcontainerPortal = {proj} /* Project object */;
-\t\t\tproxyType = 1;
-\t\t\tremoteGlobalIDString = {watch_target};
-\t\t\tremoteInfo = "FishingNowWatch Watch App";
-\t\t}};
-/* End PBXContainerItemProxy section */
 
 /* Begin XCBuildConfiguration section */
 \t\t{proj_debug} /* Debug */ = {{
