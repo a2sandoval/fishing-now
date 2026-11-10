@@ -48,7 +48,7 @@ jobs:
         run: |
           xcodebuild \
             -project FishingNow.xcodeproj \
-            -scheme FishingNow \
+            -target "FishingNowWatch Watch App" \
             -configuration Release \
             -sdk watchos \
             -derivedDataPath build \
