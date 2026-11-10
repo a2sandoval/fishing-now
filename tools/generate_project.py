@@ -358,6 +358,7 @@ pbx = f"""// !$*UTF8*$!
 \t\t\tbuildSettings = {{
 \t\t\t\t{target_settings("com.a2sandoval.fishingnow.watchkitapp", "Fishing Now", "4", "watchos", "WATCHOS_DEPLOYMENT_TARGET", "10.0")}
 \t\t\t\tINFOPLIST_KEY_WKApplication = YES;
+ 				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = com.a2sandoval.fishingnow;
 \t\t\t\tSDKROOT = watchos;
 \t\t\t\tSUPPORTED_PLATFORMS = watchos;
 \t\t\t\tWATCHOS_DEPLOYMENT_TARGET = 10.0;
@@ -371,6 +372,7 @@ pbx = f"""// !$*UTF8*$!
 \t\t\tbuildSettings = {{
 \t\t\t\t{target_settings("com.a2sandoval.fishingnow.watchkitapp", "Fishing Now", "4", "watchos", "WATCHOS_DEPLOYMENT_TARGET", "10.0")}
 \t\t\t\tINFOPLIST_KEY_WKApplication = YES;
+ 				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = com.a2sandoval.fishingnow;
 \t\t\t\tSDKROOT = watchos;
 \t\t\t\tSUPPORTED_PLATFORMS = watchos;
 \t\t\t\tWATCHOS_DEPLOYMENT_TARGET = 10.0;

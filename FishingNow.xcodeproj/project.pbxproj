@@ -344,6 +344,7 @@
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "4";
 				INFOPLIST_KEY_WKApplication = YES;
+ 				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = com.a2sandoval.fishingnow;
 				SDKROOT = watchos;
 				SUPPORTED_PLATFORMS = watchos;
 				WATCHOS_DEPLOYMENT_TARGET = 10.0;
@@ -368,6 +369,7 @@
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "4";
 				INFOPLIST_KEY_WKApplication = YES;
+ 				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = com.a2sandoval.fishingnow;
 				SDKROOT = watchos;
 				SUPPORTED_PLATFORMS = watchos;
 				WATCHOS_DEPLOYMENT_TARGET = 10.0;
