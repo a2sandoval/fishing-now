@@ -1,11 +1,13 @@
 name: Build Fishing Now
 
+
 # Builds both targets unsigned on a macOS runner — proves the code
 # compiles. Signed installs happen from Xcode with your Developer account.
 on:
   push:
     branches: [main]
   workflow_dispatch:
+
 
 jobs:
   build:
@@ -14,10 +16,12 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+
       - name: Select Xcode 26
         uses: maxim-lobanov/setup-xcode@v1
         with:
           xcode-version: "26.5"
+
 
       - name: Diagnose Watch build graph
         run: |
@@ -26,6 +30,7 @@ jobs:
           grep -E "ARCHS|CURRENT_ARCH|OBJECT_FILE_DIR|TARGET_TEMP_DIR|PROJECT_TEMP_DIR|CONFIGURATION_BUILD_DIR|TARGET_BUILD_DIR|BUILT_PRODUCTS_DIR|TARGET_BUILD_DIR|PRODUCTS_DIR|DSTROOT|DEPLOYMENT_LOCATION|INSTALL_PATH|SKIP_INSTALL|EXECUTABLE_NAME|PRODUCT_NAME|WRAPPER_NAME|BUILD_VARIANTS|ONLY_ACTIVE_ARCH|CODE_SIGN" /tmp/settings.txt || true
           echo "--- total lines ---"
           wc -l /tmp/settings.txt
+
 
       - name: Build Watch app (unsigned)
         run: |
@@ -38,6 +43,20 @@ jobs:
             CODE_SIGNING_REQUIRED=NO \
             build
 
+
+      - name: Dump Watch build description
+        if: always()
+        run: |
+          echo "--- xcbuilddata files ---"
+          find ~/Library/Developer/Xcode/DerivedData -name "*.xcbuilddata" -newer ~/Library/Developer/Xcode/DerivedData 2>/dev/null | head -5 || true
+          XCB=$(find ~/Library/Developer/Xcode/DerivedData -name "*.xcbuilddata" -type d 2>/dev/null | head -1)
+          echo "using: $XCB"
+          echo "--- tasks mentioning the Watch executable ---"
+          strings "$XCB" 2>/dev/null | grep -i "FishingNowWatch Watch App" | head -30 || true
+          echo "--- CopyAndPreserveArchs context ---"
+          strings "$XCB" 2>/dev/null | grep -B2 -A2 "CopyAndPreserveArchs" | head -40 || true
+
+
       - name: Build iPhone app (unsigned)
         run: |
           xcodebuild \
@@ -49,6 +68,7 @@ jobs:
             CODE_SIGNING_ALLOWED=NO \
             build
 
+
       - name: Package unsigned IPA
         run: |
           APP_PATH="build/Build/Products/Release-iphoneos/FishingNow.app"
@@ -56,6 +76,7 @@ jobs:
           rm -rf Payload && mkdir -p Payload
           cp -R "$APP_PATH" Payload/
           zip -qry FishingNow-unsigned.ipa Payload
+
 
       - name: Upload IPA
         uses: actions/upload-artifact@v4
