@@ -43,8 +43,8 @@ jobs:
             -configuration Release \
             -destination 'generic/platform=iOS' \
             -derivedDataPath build \
-          CODE_SIGNING_ALLOWED=NO \
-          build
+            CODE_SIGNING_ALLOWED=NO \
+            build
 
 
       - name: Package unsigned IPA
