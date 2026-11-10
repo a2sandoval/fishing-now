@@ -34,7 +34,6 @@ jobs:
             -scheme "FishingNowWatch Watch App" \
             -configuration Release \
             -destination 'generic/platform=watchOS' \
-            -derivedDataPath build \
             CODE_SIGNING_ALLOWED=NO \
             build
 
