@@ -21,7 +21,7 @@ jobs:
 
       - name: Diagnose Watch build graph
         run: |
-          xcodebuild -project FishingNow.xcodeproj -scheme "FishingNowWatch Watch App" -configuration Release -destination 'generic/platform=watchOS' -derivedDataPath build -dry-run build > /tmp/dryrun.txt 2>&1; echo "dry-run exit: $?"
+          xcodebuild -project FishingNow.xcodeproj -scheme "FishingNowWatch Watch App" -configuration Release -destination 'generic/platform=watchOS' -derivedDataPath build -dry-run build > /tmp/dryrun.txt 2>&1 || true; echo "dry-run exit: $?"
           echo "--- dry-run lines mentioning error / copy / link ---"
           grep -nE "error|CopyAndPreserveArchs|CreateUniversalBinary|Ld " /tmp/dryrun.txt | head -40 || true
           echo "--- dry-run total lines ---"
