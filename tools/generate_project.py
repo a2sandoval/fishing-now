@@ -69,7 +69,6 @@ def build_file_section():
     for (target, path), bid in build_files.items():
         kind = "Sources" if path.endswith(".swift") else "Resources"
         out.append(f'\t\t{bid} /* {pathlib.Path(path).name} in {kind} */ = {{isa = PBXBuildFile; fileRef = {ref(path)}; }};')
-    out.append(f'\t\t{watch_product_build} /* FishingNowWatch Watch App.app in Embed Watch Content */ = {{isa = PBXBuildFile; fileRef = {watch_product} /* FishingNowWatch Watch App.app */; }};')
     out.append("/* End PBXBuildFile section */\n")
     return "\n".join(out)
 
@@ -107,19 +106,13 @@ pbx = f"""// !$*UTF8*$!
 
 {build_file_section()}
 {file_ref_section()}
-/* Begin PBXCopyFilesBuildPhase section */
-\t\t{ios_embed_watch} /* Embed Watch Content */ = {{
-\t\t\tisa = PBXCopyFilesBuildPhase;
-\t\t\tbuildActionMask = 2147483647;
-\t\t\tdstPath = "";
-\t\t\tdstSubfolderSpec = 16;
-\t\t\tfiles = (
-\t\t\t\t{watch_product_build} /* FishingNowWatch Watch App.app in Embed Watch Content */,
-\t\t\t);
-\t\t\tname = "Embed Watch Content";
-\t\t\trunOnlyForDeploymentPostprocessing = 0;
-\t\t}};
-/* End PBXCopyFilesBuildPhase section */
+/* EXPERIMENT 2: the entire Embed Watch Content phase object (and its
+   build file) removed, not just detached. The standalone Watch build
+   still planned a CopyAndPreserveArchs task for the Watch executable
+   with the phase merely detached from the iOS target buildPhases,
+   so the hypothesis is that XCBuild still sees the orphaned phase
+   object and plans the copy. If the Watch step goes green now, the
+   phase object itself was the trigger. */
 
 /* Begin PBXFrameworksBuildPhase section */
 \t\t{ios_frameworks} /* Frameworks */ = {{

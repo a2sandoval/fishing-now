@@ -22,7 +22,6 @@
 		000000000000000000000135 /* Fish.swift in Sources */ = {isa = PBXBuildFile; fileRef = 000000000000000000000126 /* Fish.swift */; };
 		000000000000000000000136 /* FishData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 000000000000000000000127 /* FishData.swift */; };
 		000000000000000000000137 /* GameEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 000000000000000000000128 /* GameEngine.swift */; };
-		000000000000000000000138 /* FishingNowWatch Watch App.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 000000000000000000000105 /* FishingNowWatch Watch App.app */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -42,19 +41,13 @@
 		000000000000000000000105 /* FishingNowWatch Watch App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "FishingNowWatch Watch App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
-/* Begin PBXCopyFilesBuildPhase section */
-		00000000000000000000010E /* Embed Watch Content */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 16;
-			files = (
-				000000000000000000000138 /* FishingNowWatch Watch App.app in Embed Watch Content */,
-			);
-			name = "Embed Watch Content";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXCopyFilesBuildPhase section */
+/* EXPERIMENT 2: the entire Embed Watch Content phase object (and its
+   build file) removed, not just detached. The standalone Watch build
+   still planned a CopyAndPreserveArchs task for the Watch executable
+   with the phase merely detached from the iOS target buildPhases,
+   so the hypothesis is that XCBuild still sees the orphaned phase
+   object and plans the copy. If the Watch step goes green now, the
+   phase object itself was the trigger. */
 
 /* Begin PBXFrameworksBuildPhase section */
 		00000000000000000000010C /* Frameworks */ = {
