@@ -69,6 +69,7 @@ def build_file_section():
     for (target, path), bid in build_files.items():
         kind = "Sources" if path.endswith(".swift") else "Resources"
         out.append(f'\t\t{bid} /* {pathlib.Path(path).name} in {kind} */ = {{isa = PBXBuildFile; fileRef = {ref(path)}; }};')
+    out.append(f'\t\t{watch_product_build} /* FishingNowWatch Watch App.app in Embed Watch Content */ = {{isa = PBXBuildFile; fileRef = {watch_product} /* FishingNowWatch Watch App.app */; }};')
     out.append("/* End PBXBuildFile section */\n")
     return "\n".join(out)
 
@@ -106,6 +107,20 @@ pbx = f"""// !$*UTF8*$!
 
 {build_file_section()}
 {file_ref_section()}
+/* Begin PBXCopyFilesBuildPhase section */
+\t\t{ios_embed_watch} /* Embed Watch Content */ = {{
+\t\t\tisa = PBXCopyFilesBuildPhase;
+\t\t\tbuildActionMask = 2147483647;
+\t\t\tdstPath = "";
+\t\t\tdstSubfolderSpec = 16;
+\t\t\tfiles = (
+\t\t\t\t{watch_product_build} /* FishingNowWatch Watch App.app in Embed Watch Content */,
+\t\t\t);
+\t\t\tname = "Embed Watch Content";
+\t\t\trunOnlyForDeploymentPostprocessing = 0;
+\t\t}};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFrameworksBuildPhase section */
 \t\t{ios_frameworks} /* Frameworks */ = {{
 \t\t\tisa = PBXFrameworksBuildPhase;
@@ -177,11 +192,7 @@ pbx = f"""// !$*UTF8*$!
 \t\t\t\t{ios_sources} /* Sources */,
 \t\t\t\t{ios_frameworks} /* Frameworks */,
 \t\t\t\t{ios_resources} /* Resources */,
-\t\t\t\t/* EXPERIMENT: Embed Watch Content phase temporarily detached
-\t\t\t\t   to test whether its reference to the Watch product is what
-\t\t\t\t   makes Xcode add a CopyAndPreserveArchs task to the Watch
-\t\t\t\t   target's own build. The phase object still exists below,
-\t\t\t\t   unreferenced. Restore by re-adding the line. */
+\t\t\t\t{ios_embed_watch} /* Embed Watch Content */,
 \t\t\t);
 \t\t\tbuildRules = (
 \t\t\t);

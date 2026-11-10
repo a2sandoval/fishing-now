@@ -22,6 +22,7 @@
 		000000000000000000000135 /* Fish.swift in Sources */ = {isa = PBXBuildFile; fileRef = 000000000000000000000126 /* Fish.swift */; };
 		000000000000000000000136 /* FishData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 000000000000000000000127 /* FishData.swift */; };
 		000000000000000000000137 /* GameEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 000000000000000000000128 /* GameEngine.swift */; };
+		000000000000000000000138 /* FishingNowWatch Watch App.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 000000000000000000000105 /* FishingNowWatch Watch App.app */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -40,6 +41,20 @@
 		000000000000000000000104 /* FishingNow.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FishingNow.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		000000000000000000000105 /* FishingNowWatch Watch App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "FishingNowWatch Watch App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		00000000000000000000010E /* Embed Watch Content */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 16;
+			files = (
+				000000000000000000000138 /* FishingNowWatch Watch App.app in Embed Watch Content */,
+			);
+			name = "Embed Watch Content";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		00000000000000000000010C /* Frameworks */ = {
@@ -121,11 +136,7 @@
 				00000000000000000000010B /* Sources */,
 				00000000000000000000010C /* Frameworks */,
 				00000000000000000000010D /* Resources */,
-				/* EXPERIMENT: Embed Watch Content phase temporarily detached
-				   to test whether its reference to the Watch product is what
-				   makes Xcode add a CopyAndPreserveArchs task to the Watch
-				   target's own build. The phase object still exists below,
-				   unreferenced. Restore by re-adding the line. */
+				00000000000000000000010E /* Embed Watch Content */,
 			);
 			buildRules = (
 			);
