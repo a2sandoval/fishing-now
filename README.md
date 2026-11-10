@@ -93,9 +93,14 @@ workflow builds both targets unsigned on a macOS runner:
 
 ```sh
 xcodebuild -project FishingNow.xcodeproj -scheme FishingNow \
-  -configuration Release -sdk iphoneos CODE_SIGNING_ALLOWED=NO build
+  -configuration Release -destination 'generic/platform=iOS' CODE_SIGNING_ALLOWED=NO build
 xcodebuild -project FishingNow.xcodeproj -target "FishingNowWatch Watch App" \
-  -configuration Release -sdk watchos CODE_SIGNING_ALLOWED=NO build
+  -configuration Release -destination 'generic/platform=watchOS' CODE_SIGNING_ALLOWED=NO build
+
+# Note: use -destination, not -sdk. A bare -sdk iphoneos forces every
+# target in the build graph (including the Watch app) onto the iOS SDK,
+# and xcodebuild then refuses the watchapp2 product type for iOS.
+# -destination lets the Watch target keep its own SDKROOT=watchos.
 ```
 
 For a signed build you can install on a real Watch, sign in Xcode with
