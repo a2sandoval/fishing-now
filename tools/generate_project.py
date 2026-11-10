@@ -448,9 +448,14 @@ scheme_dir.mkdir(parents=True, exist_ok=True)
          <BuildActionEntry buildForTesting="YES" buildForRunning="YES" buildForProfiling="YES" buildForArchiving="YES" buildForAnalyzing="YES">
             <BuildableReference BuildableIdentifier="primary" BlueprintIdentifier="{ios_target}" BuildableName="FishingNow.app" BlueprintName="FishingNow" ReferencedContainer="container:FishingNow.xcodeproj"/>
          </BuildActionEntry>
-         <BuildActionEntry buildForTesting="YES" buildForRunning="YES" buildForProfiling="YES" buildForArchiving="YES" buildForAnalyzing="YES">
-            <BuildableReference BuildableIdentifier="primary" BlueprintIdentifier="{watch_target}" BuildableName="FishingNowWatch Watch App.app" BlueprintName="FishingNowWatch Watch App" ReferencedContainer="container:FishingNow.xcodeproj"/>
-         </BuildActionEntry>
+         <!-- The Watch app is NOT listed here on purpose: building it as a
+              top-level scheme entry under -sdk iphoneos makes xcodebuild
+              try to build it for iOS ("unable to resolve product type
+              'com.apple.product-type.application.watchapp2' for platform
+              'iOS'"). It is built automatically as a dependency of the
+              iOS app, via the "Embed Watch Content" phase, with its own
+              SDKROOT=watchos. A standalone Watch check uses
+              -target "FishingNowWatch Watch App" -sdk watchos instead. -->
       </BuildActionEntries>
    </BuildAction>
    <TestAction buildConfiguration="Debug" selectedDebuggerIdentifier="Xcode.DebuggerFoundation.Debugger.LLDB" selectedLauncherIdentifier="Xcode.DebuggerFoundation.Launcher.LLDB" shouldUseLaunchSchemeArgsEnv="YES"/>

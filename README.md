@@ -94,7 +94,7 @@ workflow builds both targets unsigned on a macOS runner:
 ```sh
 xcodebuild -project FishingNow.xcodeproj -scheme FishingNow \
   -configuration Release -sdk iphoneos CODE_SIGNING_ALLOWED=NO build
-xcodebuild -project FishingNow.xcodeproj -scheme FishingNow \
+xcodebuild -project FishingNow.xcodeproj -target "FishingNowWatch Watch App" \
   -configuration Release -sdk watchos CODE_SIGNING_ALLOWED=NO build
 ```
 
