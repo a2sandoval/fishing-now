@@ -28,6 +28,13 @@ jobs:
         run: bash tools/build_watch_manual.sh
 
 
+      - name: Stage Watch app for the iPhone embed phase
+        run: |
+          mkdir -p "build/Build/Products/Release-watchos"
+          cp -R "watch-build/FishingNowWatch Watch App.app" "build/Build/Products/Release-watchos/"
+          ls -la "build/Build/Products/Release-watchos/"
+
+
       - name: Build iPhone app (unsigned)
         run: |
           xcodebuild \
@@ -36,8 +43,8 @@ jobs:
             -configuration Release \
             -destination 'generic/platform=iOS' \
             -derivedDataPath build \
-            CODE_SIGNING_ALLOWED=NO \
-            build
+          CODE_SIGNING_ALLOWED=NO \
+          build
 
 
       - name: Package unsigned IPA
