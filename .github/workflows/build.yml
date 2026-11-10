@@ -47,12 +47,12 @@ jobs:
       - name: Dump Watch build description
         if: always()
         run: |
-          XCB=$(find ~/Library/Developer/Xcode/DerivedData -name "*.xcbuilddata" -type d 2>/dev/null | head -1)
-          echo "using: $XCB"
+          XCB=$(find ~/Library/Developer/Xcode/DerivedData -name "*.xcbuilddata" -type d 2>/dev/null | xargs ls -td 2>/dev/null | head -1)
+          echo "using newest: $XCB"
+          echo "--- files inside with sizes ---"
+          find "$XCB" -type f -exec ls -la {} + 2>/dev/null | head -15 || true
           echo "--- target-graph.txt (full) ---"
           cat "$XCB/target-graph.txt" 2>/dev/null || true
-          echo "--- manifest.json ---"
-          cat "$XCB/manifest.json" 2>/dev/null | head -60 || true
           echo "--- CopyAndPreserveArchs context (binary-safe) ---"
           find "$XCB" -type f -exec strings {} + 2>/dev/null | LC_ALL=C grep -a -B3 -A3 "CopyAndPreserveArchs" | head -60 || true
 
