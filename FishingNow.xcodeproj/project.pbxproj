@@ -136,7 +136,11 @@
 				00000000000000000000010B /* Sources */,
 				00000000000000000000010C /* Frameworks */,
 				00000000000000000000010D /* Resources */,
-				00000000000000000000010E /* Embed Watch Content */,
+				/* EXPERIMENT: Embed Watch Content phase temporarily detached
+				   to test whether its reference to the Watch product is what
+				   makes Xcode add a CopyAndPreserveArchs task to the Watch
+				   target's own build. The phase object still exists below,
+				   unreferenced. Restore by re-adding the line. */
 			);
 			buildRules = (
 			);

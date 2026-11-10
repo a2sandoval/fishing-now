@@ -192,7 +192,11 @@ pbx = f"""// !$*UTF8*$!
 \t\t\t\t{ios_sources} /* Sources */,
 \t\t\t\t{ios_frameworks} /* Frameworks */,
 \t\t\t\t{ios_resources} /* Resources */,
-\t\t\t\t{ios_embed_watch} /* Embed Watch Content */,
+\t\t\t\t/* EXPERIMENT: Embed Watch Content phase temporarily detached
+\t\t\t\t   to test whether its reference to the Watch product is what
+\t\t\t\t   makes Xcode add a CopyAndPreserveArchs task to the Watch
+\t\t\t\t   target's own build. The phase object still exists below,
+\t\t\t\t   unreferenced. Restore by re-adding the line. */
 \t\t\t);
 \t\t\tbuildRules = (
 \t\t\t);
