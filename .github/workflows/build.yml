@@ -25,7 +25,7 @@ jobs:
             -project FishingNow.xcodeproj \
             -scheme FishingNow \
             -configuration Release \
-            -sdk iphoneos \
+            -destination 'generic/platform=iOS' \
             -derivedDataPath build \
             CODE_SIGNING_ALLOWED=NO \
             build
@@ -50,7 +50,7 @@ jobs:
             -project FishingNow.xcodeproj \
             -target "FishingNowWatch Watch App" \
             -configuration Release \
-            -sdk watchos \
+            -destination 'generic/platform=watchOS' \
             -derivedDataPath build \
             CODE_SIGNING_ALLOWED=NO \
             build
