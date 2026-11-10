@@ -353,6 +353,7 @@
 				SUPPORTED_PLATFORMS = watchos;
 				WATCHOS_DEPLOYMENT_TARGET = 10.0;
 				SKIP_INSTALL = YES;
+ 				ONLY_ACTIVE_ARCH = YES;
 			};
 			name = Debug;
 		};
@@ -377,6 +378,7 @@
 				SUPPORTED_PLATFORMS = watchos;
 				WATCHOS_DEPLOYMENT_TARGET = 10.0;
 				SKIP_INSTALL = YES;
+ 				ONLY_ACTIVE_ARCH = YES;
 			};
 			name = Release;
 		};
