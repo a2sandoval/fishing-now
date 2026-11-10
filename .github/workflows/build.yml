@@ -19,6 +19,12 @@ jobs:
         with:
           xcode-version: "26.5"
 
+      - name: Diagnose Watch build graph
+        run: |
+          xcodebuild -project FishingNow.xcodeproj -scheme "FishingNowWatch Watch App" -configuration Release -destination 'generic/platform=watchOS' -derivedDataPath build -showBuildSettings | grep -E "ARCHS|CONFIGURATION_BUILD_DIR|BUILT_PRODUCTS_DIR|TARGET_BUILD_DIR|INSTALL_PATH|SKIP_INSTALL|DEPLOYMENT_LOCATION|DSTROOT|PRODUCT_NAME|EXECUTABLE_NAME|WRAPPER_NAME|SDKROOT|SUPPORTED_PLATFORMS|ONLY_ACTIVE_ARCH|VALID_ARCHS|CURRENT_ARCH" || true
+          echo "--- dry-run tasks ---"
+          xcodebuild -project FishingNow.xcodeproj -scheme "FishingNowWatch Watch App" -configuration Release -destination 'generic/platform=watchOS' -derivedDataPath build -dry-run build 2>&1 | grep -B3 -A3 "CopyAndPreserveArchs" | head -60 || true
+
       - name: Build Watch app (unsigned)
         run: |
           xcodebuild \
@@ -30,7 +36,7 @@ jobs:
             CODE_SIGNING_ALLOWED=NO \
             build
 
-      - name: Build iPhone app (unsigned)
+      - name: Build iOS app (unsigned)
         run: |
           xcodebuild \
             -project FishingNow.xcodeproj \
@@ -41,16 +47,12 @@ jobs:
             CODE_SIGNING_ALLOWED=NO \
             build
 
-      - name: Package unsigned IPA
+      - name: Zip iOS .app
         run: |
-          APP_PATH="build/Build/Products/Release-iphoneos/FishingNow.app"
-          ls -la "$APP_PATH"
-          rm -rf Payload && mkdir -p Payload
-          cp -R "$APP_PATH" Payload/
-          zip -qry FishingNow-unsigned.ipa Payload
+          cd build/Build/Products/Release-iphoneos && zip -r FishingNow-iOS.zip FishingNow.app
 
-      - name: Upload IPA
+      - name: Upload iOS app artifact
         uses: actions/upload-artifact@v4
         with:
-          name: fishing-now-unsigned-ipa
-          path: FishingNow-unsigned.ipa
+          name: FishingNow-iOS-unsigned
+          path: build/Build/Products/Release-iphoneos/FishingNow-iOS.zip
