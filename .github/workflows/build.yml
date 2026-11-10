@@ -34,8 +34,6 @@ jobs:
             -scheme "FishingNowWatch Watch App" \
             -configuration Release \
             -destination 'generic/platform=watchOS' \
-            -arch arm64 \
-            CODE_SIGNING_ALLOWED=NO \
             build
 
       - name: Build iPhone app (unsigned)
