@@ -49,12 +49,12 @@ jobs:
         run: |
           XCB=$(find ~/Library/Developer/Xcode/DerivedData -name "*.xcbuilddata" -type d 2>/dev/null | head -1)
           echo "using: $XCB"
-          echo "--- files inside ---"
-          find "$XCB" -type f 2>/dev/null | head -10 || true
-          echo "--- tasks mentioning the Watch executable ---"
-          find "$XCB" -type f -exec strings {} + 2>/dev/null | grep -i "FishingNowWatch Watch App" | head -30 || true
-          echo "--- CopyAndPreserveArchs context ---"
-          find "$XCB" -type f -exec strings {} + 2>/dev/null | grep -B2 -A2 "CopyAndPreserveArchs" | head -40 || true
+          echo "--- target-graph.txt (full) ---"
+          cat "$XCB/target-graph.txt" 2>/dev/null || true
+          echo "--- manifest.json ---"
+          cat "$XCB/manifest.json" 2>/dev/null | head -60 || true
+          echo "--- CopyAndPreserveArchs context (binary-safe) ---"
+          find "$XCB" -type f -exec strings {} + 2>/dev/null | LC_ALL=C grep -a -B3 -A3 "CopyAndPreserveArchs" | head -60 || true
 
 
       - name: Build iPhone app (unsigned)
