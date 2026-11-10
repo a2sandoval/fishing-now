@@ -38,7 +38,7 @@ jobs:
             -project FishingNow.xcodeproj \
             -scheme "FishingNowWatch Watch App" \
             -configuration Release \
-            -destination 'generic/platform=watchOS' \
+            -destination 'generic/platform=watchOS Simulator' \
             CODE_SIGN_IDENTITY="" \
             CODE_SIGNING_REQUIRED=NO \
             build
@@ -57,15 +57,6 @@ jobs:
           find "$XCB" -type f -exec strings {} + 2>/dev/null | LC_ALL=C grep -a -B3 -A3 "CopyAndPreserveArchs" | head -60 ||  true
   
   
-      - name: Upload Watch build description
-        if: always()
-        uses: actions/upload-artifact@v4
-      with:
-          name: watch-xcbuilddata
-          path: /Users/runner/Library/Developer/Xcode/DerivedData/FishingNow-goupgrzunnhnddbnvuwtuxyyvfzo/Build/Intermediates.noindex/XCBuildData/*.xcbuilddata
-          if-no-files-found: warn
-
-
       - name: Build iPhone app (unsigned)
         run: |
           xcodebuild \
