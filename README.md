@@ -92,10 +92,20 @@ Push this folder to a repo (e.g. `a2sandoval/fishing-now`) and the
 workflow builds both targets unsigned on a macOS runner:
 
 ```sh
-xcodebuild -project FishingNow.xcodeproj -scheme FishingNow \
-  -configuration Release -destination 'generic/platform=iOS' CODE_SIGNING_ALLOWED=NO build
+# Build the Watch app FIRST, then the iPhone app, both into the same
+# derived-data folder. The iPhone build's "Embed Watch Content" phase
+# copies the already-built Watch .app out of that folder, so the order
+# matters. (The iOS target deliberately has no explicit dependency on
+# the Watch target: with one, Xcode plans the Watch executable twice —
+# link step plus CopyAndPreserveArchs — and fails with "Multiple
+# commands produce ...". The Watch target's WKCompanionAppBundleIdentifier
+# is set explicitly so the companion link still works.)
 xcodebuild -project FishingNow.xcodeproj -target "FishingNowWatch Watch App" \
-  -configuration Release -destination 'generic/platform=watchOS' CODE_SIGNING_ALLOWED=NO build
+  -configuration Release -destination 'generic/platform=watchOS' \
+  -derivedDataPath build CODE_SIGNING_ALLOWED=NO build
+xcodebuild -project FishingNow.xcodeproj -scheme FishingNow \
+  -configuration Release -destination 'generic/platform=iOS' \
+  -derivedDataPath build CODE_SIGNING_ALLOWED=NO build
 
 # Note: use -destination, not -sdk. A bare -sdk iphoneos forces every
 # target in the build graph (including the Watch app) onto the iOS SDK,
