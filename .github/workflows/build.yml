@@ -32,6 +32,39 @@ jobs:
           wc -l /tmp/settings.txt
 
 
+      - name: Reference watch build with xcodegen
+        run: |
+          brew list xcodegen >/dev/null 2>&1 || brew install xcodegen
+          mkdir -p /tmp/refwatch/RefWatch /tmp/refwatch/RefWatchWatch
+          cat > /tmp/refwatch/project.yml <<'EOF'
+          name: RefWatch
+          options:
+            bundleIdPrefix: com.refwatch
+          targets:
+            RefWatch:
+              type: application
+              platform: iOS
+              deploymentTarget: "17.0"
+              sources: [RefWatch]
+            RefWatchWatch:
+              type: application.watchapp2
+              platform: watchOS
+              deploymentTarget: "10.0"
+              sources: [RefWatchWatch]
+          EOF
+          cat > /tmp/refwatch/RefWatch/App.swift <<'EOF'
+          import SwiftUI
+          @main struct RefWatchApp: App { var body: some Scene { WindowGroup { Text("Ref") } } }
+          EOF
+          cat > /tmp/refwatch/RefWatchWatch/App.swift <<'EOF'
+          import SwiftUI
+          @main struct RefWatchWatchApp: App { var body: some Scene { WindowGroup { Text("RefWatch") } } }
+          EOF
+          cd /tmp/refwatch && xcodegen generate
+          xcodebuild -project RefWatch.xcodeproj -scheme RefWatchWatch -configuration Release -destination 'generic/platform=watchOS' CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO build
+          echo "reference watch build exit: $?"
+
+
       - name: Build Watch app (unsigned)
         run: |
           xcodebuild \
@@ -55,8 +88,8 @@ jobs:
           cat "$XCB/target-graph.txt" 2>/dev/null || true
           echo "--- CopyAndPreserveArchs context (binary-safe) ---"
           find "$XCB" -type f -exec strings {} + 2>/dev/null | LC_ALL=C grep -a -B3 -A3 "CopyAndPreserveArchs" | head -60 ||  true
-  
-  
+
+
       - name: Build iPhone app (unsigned)
         run: |
           xcodebuild \
