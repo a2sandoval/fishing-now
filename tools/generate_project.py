@@ -94,7 +94,7 @@ def target_settings(bundle, name, device_family, sdk, deploy_key, deploy_val, ex
 \t\t\t\tPRODUCT_NAME = "$(TARGET_NAME)";
 \t\t\t\tSWIFT_EMIT_LOC_STRINGS = YES;
 \t\t\t\tSWIFT_VERSION = 5.0;
-\t\t\t\tTARGETED_DEVICE_FAMILY = "{device_family}";{extra}"""
+\t\t\t\tTARGETED_DEVICE_FAMILY = {device_family};{extra}"""
 
 pbx = f"""// !$*UTF8*$!
 {{
@@ -329,7 +329,7 @@ pbx = f"""// !$*UTF8*$!
 \t\t{ios_debug} /* Debug */ = {{
 \t\t\tisa = XCBuildConfiguration;
 \t\t\tbuildSettings = {{
-\t\t\t\t{target_settings("com.a2sandoval.fishingnow", "Fishing Now", "1,2", "iphoneos", "IPHONEOS_DEPLOYMENT_TARGET", "17.0")}
+\t\t\t\t{target_settings("com.a2sandoval.fishingnow", "Fishing Now", "\"1,2\"", "iphoneos", "IPHONEOS_DEPLOYMENT_TARGET", "17.0")}
 \t\t\t\tINFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 \t\t\t}};
 \t\t\tname = Debug;
@@ -337,7 +337,7 @@ pbx = f"""// !$*UTF8*$!
 \t\t{ios_release} /* Release */ = {{
 \t\t\tisa = XCBuildConfiguration;
 \t\t\tbuildSettings = {{
-\t\t\t\t{target_settings("com.a2sandoval.fishingnow", "Fishing Now", "1,2", "iphoneos", "IPHONEOS_DEPLOYMENT_TARGET", "17.0")}
+\t\t\t\t{target_settings("com.a2sandoval.fishingnow", "Fishing Now", "\"1,2\"", "iphoneos", "IPHONEOS_DEPLOYMENT_TARGET", "17.0")}
 \t\t\t\tINFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 \t\t\t}};
 \t\t\tname = Release;

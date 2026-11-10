@@ -331,7 +331,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "4";
+				TARGETED_DEVICE_FAMILY = 4;
 				INFOPLIST_KEY_WKApplication = YES;
  				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = com.a2sandoval.fishingnow;
 				SDKROOT = watchos;
@@ -356,7 +356,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "4";
+				TARGETED_DEVICE_FAMILY = 4;
 				INFOPLIST_KEY_WKApplication = YES;
  				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = com.a2sandoval.fishingnow;
 				SDKROOT = watchos;
