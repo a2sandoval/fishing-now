@@ -47,14 +47,14 @@ jobs:
       - name: Dump Watch build description
         if: always()
         run: |
-          echo "--- xcbuilddata files ---"
-          find ~/Library/Developer/Xcode/DerivedData -name "*.xcbuilddata" -newer ~/Library/Developer/Xcode/DerivedData 2>/dev/null | head -5 || true
           XCB=$(find ~/Library/Developer/Xcode/DerivedData -name "*.xcbuilddata" -type d 2>/dev/null | head -1)
           echo "using: $XCB"
+          echo "--- files inside ---"
+          find "$XCB" -type f 2>/dev/null | head -10 || true
           echo "--- tasks mentioning the Watch executable ---"
-          strings "$XCB" 2>/dev/null | grep -i "FishingNowWatch Watch App" | head -30 || true
+          find "$XCB" -type f -exec strings {} + 2>/dev/null | grep -i "FishingNowWatch Watch App" | head -30 || true
           echo "--- CopyAndPreserveArchs context ---"
-          strings "$XCB" 2>/dev/null | grep -B2 -A2 "CopyAndPreserveArchs" | head -40 || true
+          find "$XCB" -type f -exec strings {} + 2>/dev/null | grep -B2 -A2 "CopyAndPreserveArchs" | head -40 || true
 
 
       - name: Build iPhone app (unsigned)
