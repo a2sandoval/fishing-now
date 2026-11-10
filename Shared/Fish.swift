@@ -139,10 +139,10 @@ public struct FishCollection: Codable {
     public func isNewSpecies(_ speciesId: String) -> Bool {
         !catches.contains { $0.speciesId == speciesId }
     }
-    public func count(for mapId: String) -> Int {
+    public func count(forMap mapId: String) -> Int {
         catches.filter { $0.mapId == mapId }.count
     }
-    public func count(for speciesId: String) -> Int {
+    public func count(forSpecies speciesId: String) -> Int {
         catches.filter { $0.speciesId == speciesId }.count
     }
     public mutating func add(_ fish: CaughtFish) { catches.append(fish) }

@@ -18,7 +18,7 @@ struct MapSelectView: View {
                     VStack(alignment: .leading) {
                         Text(map.name).font(.headline)
                         Text(unlocked
-                             ? "\(store.collection.count(for: map.id)) caught here"
+                             ? "\(store.collection.count(forMap: map.id)) caught here"
                              : "Unlocks at \(map.unlockCatchCount) catches")
                             .font(.caption2).foregroundStyle(.secondary)
                     }
@@ -50,7 +50,7 @@ struct WatchIndexView: View {
             ForEach(FishingMap.all) { map in
                 Section(map.name) {
                     ForEach(map.species) { species in
-                        let caught = store.collection.count(for: species.id)
+                        let caught = store.collection.count(forSpecies: species.id)
                         HStack {
                             Text(caught > 0 ? species.emoji : "❓")
                             Text(caught > 0 ? species.name : "???")

@@ -47,7 +47,7 @@ struct ContentView: View {
                     }.padding(.horizontal)
                 }
                 List(filteredSpecies) { species in
-                    let caught = store.collection.count(for: species.id)
+                    let caught = store.collection.count(forSpecies: species.id)
                     HStack {
                         Text(caught > 0 ? species.emoji : "❓").font(.title2)
                         VStack(alignment: .leading) {
