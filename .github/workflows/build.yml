@@ -23,7 +23,7 @@ jobs:
         run: |
           xcodebuild \
             -project FishingNow.xcodeproj \
-            -target "FishingNowWatch Watch App" \
+            -scheme "FishingNowWatch Watch App" \
             -configuration Release \
             -destination 'generic/platform=watchOS' \
             -derivedDataPath build \
