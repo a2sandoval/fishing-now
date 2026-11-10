@@ -38,7 +38,7 @@ jobs:
             -project FishingNow.xcodeproj \
             -scheme "FishingNowWatch Watch App" \
             -configuration Release \
-            -destination 'generic/platform=watchOS Simulator' \
+            -destination 'generic/platform=watchOS' \
             CODE_SIGN_IDENTITY="" \
             CODE_SIGNING_REQUIRED=NO \
             build
