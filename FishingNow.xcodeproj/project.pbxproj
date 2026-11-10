@@ -366,6 +366,7 @@
 				SDKROOT = watchos;
 				SUPPORTED_PLATFORMS = watchos;
 				WATCHOS_DEPLOYMENT_TARGET = 10.0;
+				ARCHS = arm64;
 			};
 			name = Debug;
 		};
@@ -388,6 +389,7 @@
 				SDKROOT = watchos;
 				SUPPORTED_PLATFORMS = watchos;
 				WATCHOS_DEPLOYMENT_TARGET = 10.0;
+				ARCHS = arm64;
 			};
 			name = Release;
 		};
