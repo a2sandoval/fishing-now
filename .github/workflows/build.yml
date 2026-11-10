@@ -54,7 +54,16 @@ jobs:
           echo "--- target-graph.txt (full) ---"
           cat "$XCB/target-graph.txt" 2>/dev/null || true
           echo "--- CopyAndPreserveArchs context (binary-safe) ---"
-          find "$XCB" -type f -exec strings {} + 2>/dev/null | LC_ALL=C grep -a -B3 -A3 "CopyAndPreserveArchs" | head -60 || true
+          find "$XCB" -type f -exec strings {} + 2>/dev/null | LC_ALL=C grep -a -B3 -A3 "CopyAndPreserveArchs" | head -60 ||  true
+  
+  
+      - name: Upload Watch build description
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: watch-xcbuilddata
+        path: /Users/runner/Library/Developer/Xcode/DerivedData/FishingNow-goupgrzunnhnddbnvuwtuxyyvfzo/Build/Intermediates.noindex/XCBuildData/*.xcbuilddata
+        if-no-files-found: warn
 
 
       - name: Build iPhone app (unsigned)
