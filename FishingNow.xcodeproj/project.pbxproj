@@ -391,6 +391,7 @@
 				SUPPORTED_PLATFORMS = watchos;
 				WATCHOS_DEPLOYMENT_TARGET = 10.0;
 				ARCHS = arm64;
+				SKIP_INSTALL = YES;
 			};
 			name = Release;
 		};
