@@ -5,14 +5,13 @@
          <BuildActionEntry buildForTesting="YES" buildForRunning="YES" buildForProfiling="YES" buildForArchiving="YES" buildForAnalyzing="YES">
             <BuildableReference BuildableIdentifier="primary" BlueprintIdentifier="000000000000000000000102" BuildableName="FishingNow.app" BlueprintName="FishingNow" ReferencedContainer="container:FishingNow.xcodeproj"/>
          </BuildActionEntry>
-         <!-- The Watch app is NOT listed here on purpose: building it as a
-              top-level scheme entry under -sdk iphoneos makes xcodebuild
-              try to build it for iOS ("unable to resolve product type
-              'com.apple.product-type.application.watchapp2' for platform
-              'iOS'"). It is built automatically as a dependency of the
-              iOS app, via the "Embed Watch Content" phase, with its own
-              SDKROOT=watchos. A standalone Watch check uses
-              -target "FishingNowWatch Watch App" -sdk watchos instead. -->
+         <!-- The Watch app is NOT listed here on purpose: if the iOS
+              target has an explicit dependency on it, Xcode plans the
+              Watch executable twice (link step plus CopyAndPreserveArchs)
+              and fails with "Multiple commands produce ...". The Watch
+              app is built first, as its own scheme, into the same
+              derived-data folder; the iPhone build's "Embed Watch
+              Content" phase then copies the already-built .app. -->
       </BuildActionEntries>
    </BuildAction>
    <TestAction buildConfiguration="Debug" selectedDebuggerIdentifier="Xcode.DebuggerFoundation.Debugger.LLDB" selectedLauncherIdentifier="Xcode.DebuggerFoundation.Launcher.LLDB" shouldUseLaunchSchemeArgsEnv="YES"/>

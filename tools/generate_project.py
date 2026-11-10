@@ -435,20 +435,40 @@ scheme_dir.mkdir(parents=True, exist_ok=True)
          <BuildActionEntry buildForTesting="YES" buildForRunning="YES" buildForProfiling="YES" buildForArchiving="YES" buildForAnalyzing="YES">
             <BuildableReference BuildableIdentifier="primary" BlueprintIdentifier="{ios_target}" BuildableName="FishingNow.app" BlueprintName="FishingNow" ReferencedContainer="container:FishingNow.xcodeproj"/>
          </BuildActionEntry>
-         <!-- The Watch app is NOT listed here on purpose: building it as a
-              top-level scheme entry under -sdk iphoneos makes xcodebuild
-              try to build it for iOS ("unable to resolve product type
-              'com.apple.product-type.application.watchapp2' for platform
-              'iOS'"). It is built automatically as a dependency of the
-              iOS app, via the "Embed Watch Content" phase, with its own
-              SDKROOT=watchos. A standalone Watch check uses
-              -target "FishingNowWatch Watch App" -sdk watchos instead. -->
+         <!-- The Watch app is NOT listed here on purpose: if the iOS
+              target has an explicit dependency on it, Xcode plans the
+              Watch executable twice (link step plus CopyAndPreserveArchs)
+              and fails with "Multiple commands produce ...". The Watch
+              app is built first, as its own scheme, into the same
+              derived-data folder; the iPhone build's "Embed Watch
+              Content" phase then copies the already-built .app. -->
       </BuildActionEntries>
    </BuildAction>
    <TestAction buildConfiguration="Debug" selectedDebuggerIdentifier="Xcode.DebuggerFoundation.Debugger.LLDB" selectedLauncherIdentifier="Xcode.DebuggerFoundation.Launcher.LLDB" shouldUseLaunchSchemeArgsEnv="YES"/>
    <LaunchAction buildConfiguration="Debug" selectedDebuggerIdentifier="Xcode.DebuggerFoundation.Debugger.LLDB" selectedLauncherIdentifier="Xcode.DebuggerFoundation.Launcher.LLDB" launchStyle="0" useCustomWorkingDirectory="NO" ignoresPersistentStateOnLaunch="NO" debugDocumentVersioning="YES" debugServiceExtension="internal" allowLocationSimulation="YES">
       <BuildableProductRunnable runnableDebuggingMode="0">
          <BuildableReference BuildableIdentifier="primary" BlueprintIdentifier="{ios_target}" BuildableName="FishingNow.app" BlueprintName="FishingNow" ReferencedContainer="container:FishingNow.xcodeproj"/>
+      </BuildableProductRunnable>
+   </LaunchAction>
+</Scheme>
+''')
+# Separate scheme for the Watch app alone. xcodebuild requires -scheme (not
+# -target) when -derivedDataPath is given, and the CI workflow builds the
+# Watch app first into the shared derived-data folder so the iPhone build's
+# "Embed Watch Content" phase can copy it.
+(scheme_dir / "FishingNowWatch Watch App.xcscheme").write_text(f'''<?xml version="1.0" encoding="UTF-8"?>
+<Scheme LastUpgradeVersion="1700" version="1.3">
+   <BuildAction parallelizeBuildables="YES" buildImplicitDependencies="YES">
+      <BuildActionEntries>
+         <BuildActionEntry buildForTesting="YES" buildForRunning="YES" buildForProfiling="YES" buildForArchiving="YES" buildForAnalyzing="YES">
+            <BuildableReference BuildableIdentifier="primary" BlueprintIdentifier="{watch_target}" BuildableName="FishingNowWatch Watch App.app" BlueprintName="FishingNowWatch Watch App" ReferencedContainer="container:FishingNow.xcodeproj"/>
+         </BuildActionEntry>
+      </BuildActionEntries>
+   </BuildAction>
+   <TestAction buildConfiguration="Debug" selectedDebuggerIdentifier="Xcode.DebuggerFoundation.Debugger.LLDB" selectedLauncherIdentifier="Xcode.DebuggerFoundation.Launcher.LLDB" shouldUseLaunchSchemeArgsEnv="YES"/>
+   <LaunchAction buildConfiguration="Debug" selectedDebuggerIdentifier="Xcode.DebuggerFoundation.Debugger.LLDB" selectedLauncherIdentifier="Xcode.DebuggerFoundation.Launcher.LLDB" launchStyle="0" useCustomWorkingDirectory="NO" ignoresPersistentStateOnLaunch="NO" debugDocumentVersioning="YES" debugServiceExtension="internal" allowLocationSimulation="YES">
+      <BuildableProductRunnable runnableDebuggingMode="0">
+         <BuildableReference BuildableIdentifier="primary" BlueprintIdentifier="{watch_target}" BuildableName="FishingNowWatch Watch App.app" BlueprintName="FishingNowWatch Watch App" ReferencedContainer="container:FishingNow.xcodeproj"/>
       </BuildableProductRunnable>
    </LaunchAction>
 </Scheme>
