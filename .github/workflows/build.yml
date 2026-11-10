@@ -1,6 +1,7 @@
 name: Build Fishing Now
 
 
+
 # Builds both targets unsigned on a macOS runner — proves the code
 # compiles. Signed installs happen from Xcode with your Developer account.
 on:
@@ -11,13 +12,8 @@ on:
 
 jobs:
   build:
-    runs-on: macos-15
+    runs-on: macos-26
     steps:
-      - name: List available Xcode versions
-        run: |
-          ls -d /Applications/Xcode*.app 2>/dev/null || true
-          echo "--- current ---"
-          xcodebuild -version
       - name: Checkout
         uses: actions/checkout@v4
 
@@ -25,53 +21,11 @@ jobs:
       - name: Select Xcode 26
         uses: maxim-lobanov/setup-xcode@v1
         with:
-          xcode-version: "16"
+          xcode-version: "26.5"
 
 
-      - name: Diagnose Watch build graph
-        run: |
-          xcodebuild -project FishingNow.xcodeproj -scheme "FishingNowWatch Watch App" -configuration Release -destination 'generic/platform=watchOS' -showBuildSettings > /tmp/settings.txt 2>&1 || true
-          echo "--- path and arch settings ---"
-          grep -E "ARCHS|CURRENT_ARCH|OBJECT_FILE_DIR|TARGET_TEMP_DIR|PROJECT_TEMP_DIR|CONFIGURATION_BUILD_DIR|TARGET_BUILD_DIR|BUILT_PRODUCTS_DIR|TARGET_BUILD_DIR|PRODUCTS_DIR|DSTROOT|DEPLOYMENT_LOCATION|INSTALL_PATH|SKIP_INSTALL|EXECUTABLE_NAME|PRODUCT_NAME|WRAPPER_NAME|BUILD_VARIANTS|ONLY_ACTIVE_ARCH|CODE_SIGN" /tmp/settings.txt || true
-          echo "--- total lines ---"
-          wc -l /tmp/settings.txt
-
-
-      - name: Build Watch app (unsigned)
-        run: |
-          xcodebuild \
-            -project FishingNow.xcodeproj \
-            -scheme "FishingNowWatch Watch App" \
-            -configuration Release \
-            -destination 'generic/platform=watchOS' \
-            CODE_SIGN_IDENTITY="" \
-            CODE_SIGNING_REQUIRED=NO \
-            build
-
-
-      - name: Check Watch app output
-        if: always()
-        run: |
-          echo "--- watch products ---"
-          ls -la ~/Library/Developer/Xcode/DerivedData/FishingNow-*/Build/Products/Release-watchos/ 2>/dev/null || true
-          echo "--- watch app bundle ---"
-          ls -la ~/Library/Developer/Xcode/DerivedData/FishingNow-*/Build/Products/Release-watchos/"FishingNowWatch Watch App.app" 2>/dev/null || true
-          echo "--- executable ---"
-          ls -la ~/Library/Developer/Xcode/DerivedData/FishingNow-*/Build/Products/Release-watchos/"FishingNowWatch Watch App.app"/"FishingNowWatch Watch App" 2>/dev/null || true
-          file ~/Library/Developer/Xcode/DerivedData/FishingNow-*/Build/Products/Release-watchos/"FishingNowWatch Watch App.app"/"FishingNowWatch Watch App" 2>/dev/null || true
-
-
-      - name: Dump Watch build description
-        if: always()
-        run: |
-          XCB=$(find ~/Library/Developer/Xcode/DerivedData -name "*.xcbuilddata" -type d 2>/dev/null | xargs ls -td 2>/dev/null | head -1)
-          echo "using newest: $XCB"
-          echo "--- files inside with sizes ---"
-          find "$XCB" -type f -exec ls -la {} + 2>/dev/null | head -15 || true
-          echo "--- target-graph.txt (full) ---"
-          cat "$XCB/target-graph.txt" 2>/dev/null || true
-          echo "--- CopyAndPreserveArchs context (binary-safe) ---"
-          find "$XCB" -type f -exec strings {} + 2>/dev/null | LC_ALL=C grep -a -B3 -A3 "CopyAndPreserveArchs" | head -60 ||  true
+      - name: Build Watch app manually (swiftc)
+        run: bash tools/build_watch_manual.sh
 
 
       - name: Build iPhone app (unsigned)
@@ -92,6 +46,10 @@ jobs:
           ls -la "$APP_PATH"
           rm -rf Payload && mkdir -p Payload
           cp -R "$APP_PATH" Payload/
+          WATCH_APP='watch-build/FishingNowWatch Watch App.app'
+          ls -la "$WATCH_APP"
+          mkdir -p Payload/FishingNow.app/Watch
+          cp -R "$WATCH_APP" Payload/FishingNow.app/Watch/
           zip -qry FishingNow-unsigned.ipa Payload
 
 
