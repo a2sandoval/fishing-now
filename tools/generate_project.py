@@ -106,14 +106,6 @@ pbx = f"""// !$*UTF8*$!
 
 {build_file_section()}
 {file_ref_section()}
-/* EXPERIMENT 2: the entire Embed Watch Content phase object (and its
-   build file) removed, not just detached. The standalone Watch build
-   still planned a CopyAndPreserveArchs task for the Watch executable
-   with the phase merely detached from the iOS target buildPhases,
-   so the hypothesis is that XCBuild still sees the orphaned phase
-   object and plans the copy. If the Watch step goes green now, the
-   phase object itself was the trigger. */
-
 /* Begin PBXFrameworksBuildPhase section */
 \t\t{ios_frameworks} /* Frameworks */ = {{
 \t\t\tisa = PBXFrameworksBuildPhase;
