@@ -1,11 +1,13 @@
 name: Build Fishing Now
 
+
 # Builds both targets unsigned on a macOS runner — proves the code
 # compiles. Signed installs happen from Xcode with your Developer account.
 on:
   push:
     branches: [main]
   workflow_dispatch:
+
 
 jobs:
   build:
@@ -14,16 +16,21 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+
       - name: Select Xcode 26
         uses: maxim-lobanov/setup-xcode@v1
         with:
           xcode-version: "26.5"
 
+
       - name: Diagnose Watch build graph
         run: |
-          xcodebuild -project FishingNow.xcodeproj -scheme "FishingNowWatch Watch App" -configuration Release -destination 'generic/platform=watchOS' -derivedDataPath build -showBuildSettings | grep -E "ARCHS|CONFIGURATION_BUILD_DIR|BUILT_PRODUCTS_DIR|TARGET_BUILD_DIR|INSTALL_PATH|SKIP_INSTALL|DEPLOYMENT_LOCATION|DSTROOT|PRODUCT_NAME|EXECUTABLE_NAME|WRAPPER_NAME|SDKROOT|SUPPORTED_PLATFORMS|ONLY_ACTIVE_ARCH|VALID_ARCHS|CURRENT_ARCH" || true
-          echo "--- dry-run tasks ---"
-          xcodebuild -project FishingNow.xcodeproj -scheme "FishingNowWatch Watch App" -configuration Release -destination 'generic/platform=watchOS' -derivedDataPath build -dry-run build 2>&1 | grep -B3 -A3 "CopyAndPreserveArchs" | head -60 || true
+          xcodebuild -project FishingNow.xcodeproj -scheme "FishingNowWatch Watch App" -configuration Release -destination 'generic/platform=watchOS' -derivedDataPath build -dry-run build > /tmp/dryrun.txt 2>&1; echo "dry-run exit: $?"
+          echo "--- dry-run lines mentioning error / copy / link ---"
+          grep -nE "error|CopyAndPreserveArchs|CreateUniversalBinary|Ld " /tmp/dryrun.txt | head -40 || true
+          echo "--- dry-run total lines ---"
+          wc -l /tmp/dryrun.txt
+
 
       - name: Build Watch app (unsigned)
         run: |
@@ -36,6 +43,7 @@ jobs:
             CODE_SIGNING_ALLOWED=NO \
             build
 
+
       - name: Build iPhone app (unsigned)
         run: |
           xcodebuild \
@@ -47,6 +55,7 @@ jobs:
             CODE_SIGNING_ALLOWED=NO \
             build
 
+
       - name: Package unsigned IPA
         run: |
           APP_PATH="build/Build/Products/Release-iphoneos/FishingNow.app"
@@ -54,6 +63,7 @@ jobs:
           rm -rf Payload && mkdir -p Payload
           cp -R "$APP_PATH" Payload/
           zip -qry FishingNow-unsigned.ipa Payload
+
 
       - name: Upload IPA
         uses: actions/upload-artifact@v4
